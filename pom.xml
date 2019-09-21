@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>tech.mrbraz</groupId>
+		<artifactId>java-parent</artifactId>
+		<version>1.8</version>
+		<relativePath></relativePath>
+	</parent>
+
+	<groupId>migrami</groupId>
+	<artifactId>migrami-oss</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>migrami-api</module>
+		<module>migrami-core</module>
+	</modules>
+
+	<properties>
+		<migramiVersion>0.0.1-SNAPSHOT</migramiVersion>
+		<slf4jVersion>1.7.25</slf4jVersion>
+		<log4jVersion>1.2.17</log4jVersion>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>migrami</groupId>
+				<artifactId>migrami-api</artifactId>
+				<version>${migramiVersion}</version>
+			</dependency>
+			<dependency>
+				<groupId>migrami</groupId>
+				<artifactId>migrami-core</artifactId>
+				<version>${migramiVersion}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4jVersion}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>${slf4jVersion}</version>
+			</dependency>
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>${log4jVersion}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<scm>
+		<developerConnection>scm:git:ssh://git@github.com/mrbraztech/${project.artifactId}.git</developerConnection>
+	</scm>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>
