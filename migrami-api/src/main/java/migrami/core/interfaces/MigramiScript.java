@@ -1,12 +1,15 @@
 package migrami.core.interfaces;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import java.io.InputStreamReader;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class MigramiScript {
+  private static final String LINE_SEPARATOR = System.getProperty("line.separator", "\r\n");
+  
   private final MigramiCategory category;
   
   private final MigramiScriptName name;
@@ -23,8 +26,23 @@ public class MigramiScript {
     return category;
   }
 
-  public InputStream content() {
-    return new ByteArrayInputStream(content);
+  public byte[] content() {
+    return content;
+  }
+  
+  public String contentAsString() {
+    StringBuilder content = new StringBuilder();
+
+    try(BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(this.content)))){
+      String line;
+      while ((line = reader.readLine()) != null) {
+        content.append(line).append(LINE_SEPARATOR);
+      }
+    } catch(Exception e) {
+      throw new IllegalStateException(e);
+    }
+
+    return content.toString();
   }
 
   public MigramiChecksum checksum() {
