@@ -19,6 +19,7 @@
 	<modules>
 		<module>migrami-api</module>
 		<module>migrami-core</module>
+		<module>migrami-sql</module>
 	</modules>
 
 	<properties>
@@ -40,19 +41,14 @@
 				<version>${migramiVersion}</version>
 			</dependency>
 			<dependency>
+				<groupId>migrami</groupId>
+				<artifactId>migrami-sql</artifactId>
+				<version>${migramiVersion}</version>
+			</dependency>
+			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
 				<version>${slf4jVersion}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-log4j12</artifactId>
-				<version>${slf4jVersion}</version>
-			</dependency>
-			<dependency>
-				<groupId>log4j</groupId>
-				<artifactId>log4j</artifactId>
-				<version>${log4jVersion}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

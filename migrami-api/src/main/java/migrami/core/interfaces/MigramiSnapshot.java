@@ -6,28 +6,35 @@ import lombok.Setter;
 
 @Setter
 public class MigramiSnapshot {
+  private final MigramiCategory category;
+  
   private final MigramiChecksum checksum;
 
   private final MigramiScriptName scriptName;
   
   private final Optional<MigramiScript> script;
 
-  MigramiSnapshot(MigramiChecksum checksum, MigramiScriptName scriptName) {
-    this(checksum, scriptName, Optional.empty());
+  MigramiSnapshot(MigramiCategory category, MigramiChecksum checksum, MigramiScriptName scriptName) {
+    this(category, checksum, scriptName, Optional.empty());
   }
   
-  MigramiSnapshot(MigramiChecksum checksum, MigramiScriptName scriptName, Optional<MigramiScript> script) {
+  MigramiSnapshot(MigramiCategory category, MigramiChecksum checksum, MigramiScriptName scriptName, Optional<MigramiScript> script) {
+    this.category = category;
     this.checksum = checksum;
     this.scriptName = scriptName;
     this.script = script;
   }
 
   public static MigramiSnapshot create(MigramiScript script) {
-    return new MigramiSnapshot(script.checksum(), script.name(), Optional.of(script));
+    return new MigramiSnapshot(script.category(), script.checksum(), script.name(), Optional.of(script));
   }
   
   public void execute(Consumer<MigramiScript> execution) {
     this.script.ifPresent(execution::accept);
+  }
+  
+  public MigramiCategory category() {
+    return category;
   }
   
   public MigramiChecksum checksum() {

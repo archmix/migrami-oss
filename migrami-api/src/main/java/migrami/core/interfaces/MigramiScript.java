@@ -7,14 +7,20 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class MigramiScript {
+  private final MigramiCategory category;
+  
   private final MigramiScriptName name;
 
   private final byte[] content;
 
   private final MigramiChecksum checksum;
 
-  public static MigramiScript create(MigramiScriptName name, byte[] content, MigramiChecksum checksum) {
-    return new MigramiScript(name, content, checksum);
+  public static MigramiScript create(MigramiCategory category, MigramiScriptName name, byte[] content, MigramiChecksum checksum) {
+    return new MigramiScript(category, name, content, checksum);
+  }
+  
+  public MigramiCategory category() {
+    return category;
   }
 
   public InputStream content() {

@@ -10,14 +10,24 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>migrami-api</artifactId>
+	<artifactId>migrami-sql</artifactId>
 	<packaging>jar</packaging>
+
+	<properties>
+		<walleedVersion>0.0.1-SNAPSHOT</walleedVersion>
+	</properties>
 
 	<dependencies>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
+			<groupId>migrami</groupId>
+			<artifactId>migrami-core</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>walleed</groupId>
+			<artifactId>walleed</artifactId>
+			<version>${walleedVersion}</version>
+		</dependency>
+
 		<!-- PROVIDED -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>

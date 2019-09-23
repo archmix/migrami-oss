@@ -13,32 +13,16 @@
 	<artifactId>migrami-core</artifactId>
 	<packaging>jar</packaging>
 
-	<properties>
-		<kafkaVersion>${project.version}</kafkaVersion>
-		<debeziumVersion>0.9.5.Final</debeziumVersion>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>migrami</groupId>
 			<artifactId>migrami-api</artifactId>
 		</dependency>
+		
+		<!-- PROVIDED -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
