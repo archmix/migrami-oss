@@ -1,6 +1,7 @@
 package migrami.sql.interfaces;
 
 import migrami.core.interfaces.MigramiCategoryScriptLoader;
+import migrami.core.interfaces.MigramiChecksumFactory;
 import migrami.core.interfaces.MigramiEngine;
 import migrami.core.interfaces.MigramiScript;
 import migrami.core.interfaces.MigramiSnapshotRepository;
@@ -8,10 +9,9 @@ import migrami.core.interfaces.MigramiSnapshotRepository;
 class MigramiSQLEngine extends MigramiEngine {
   private final MigramiSQLExecutor migramiExecutor;
   
-  
   MigramiSQLEngine(DatabaseConfiguration databaseConfiguration, MigramiCategoryScriptLoader loader,
-      MigramiSnapshotRepository repository) {
-    super(loader, repository);
+      MigramiChecksumFactory checksumFactory, MigramiSnapshotRepository repository) {
+    super(loader, repository, checksumFactory);
     this.migramiExecutor = MigramiSQLExecutor.create(databaseConfiguration);
   }
   

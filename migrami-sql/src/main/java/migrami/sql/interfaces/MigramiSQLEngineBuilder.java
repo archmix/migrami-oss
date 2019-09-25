@@ -3,6 +3,7 @@ package migrami.sql.interfaces;
 import lombok.NoArgsConstructor;
 import migrami.core.interfaces.Migrami;
 import migrami.core.interfaces.MigramiBuilder;
+import migrami.core.interfaces.MigramiChecksumFactory;
 import migrami.core.interfaces.MigramiSnapshotRepository;
 
 @NoArgsConstructor(staticName = "create")
@@ -17,11 +18,17 @@ public class MigramiSQLEngineBuilder extends MigramiBuilder<MigramiSQLEngineBuil
     return this;
   }
   
-  public Migrami build() {
+  @Override
+  protected void validate() {
     this.configuration.validate();
+    super.validate();
+  }
+  
+  public Migrami build() {
+    this.validate();
+    MigramiSnapshotRepository snapshotRepository = repository.get();
+    MigramiChecksumFactory checksumFactory = this.checksumFactory.get();
     
-    MigramiSnapshotRepository snapshotRepository = repository.orElseThrow(() -> new IllegalStateException("Snapshot repository cannot be null, it is mandatory. Do implement your own or use the built-in through Builder class"));
-    
-    return new MigramiSQLEngine(this.configuration, scriptLoaders, snapshotRepository);
+    return new MigramiSQLEngine(this.configuration, this.scriptLoaders, checksumFactory, snapshotRepository);
   }
 }

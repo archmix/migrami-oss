@@ -1,31 +1,33 @@
 package migrami.core.interfaces;
 
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@EqualsAndHashCode(of="value")
 public class MigramiScriptName implements Comparable<MigramiScriptName>{
-  private final String fullName;
+  private final String value;
   
   private final MigramiVersion version;
   
   private final String description;
   
-  public static MigramiScriptName create(String fullName) {
-    if(!fullName.startsWith("V")) {
+  public static MigramiScriptName create(String nameURI) {
+    if(!nameURI.startsWith("V")) {
       throw new MigramiScriptNameViolationException("Script name should start with V.");
     }
     
-    if(!fullName.contains("_")) {
+    if(!nameURI.contains("_")) {
       throw new MigramiScriptNameViolationException("Script name should have the description in its name.");
     }
     
-    int underlineIndex = fullName.indexOf("_");
+    int underlineIndex = nameURI.indexOf("_");
     
-    String version = fullName.substring(0, underlineIndex);
-    String description = fullName.substring(underlineIndex + 1);
+    String version = nameURI.substring(0, underlineIndex);
+    String description = nameURI.substring(underlineIndex + 1);
   
-    return new MigramiScriptName(fullName, MigramiVersion.create(version), description);
+    return new MigramiScriptName(nameURI, MigramiVersion.create(version), description);
   }
   
   @Override
@@ -41,7 +43,12 @@ public class MigramiScriptName implements Comparable<MigramiScriptName>{
     return this.description;
   }
   
-  String fullName() {
-    return fullName;
+  String value() {
+    return value;
+  }
+  
+  @Override
+  public String toString() {
+    return this.value;
   }
 }

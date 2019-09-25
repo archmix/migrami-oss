@@ -14,7 +14,8 @@
 	<packaging>jar</packaging>
 
 	<properties>
-		<walleedVersion>0.0.1-SNAPSHOT</walleedVersion>
+		<walleedVersion>0.0.1</walleedVersion>
+		<h2Version>1.4.199</h2Version>
 	</properties>
 
 	<dependencies>
@@ -27,6 +28,13 @@
 			<artifactId>walleed</artifactId>
 			<version>${walleedVersion}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>${h2Version}</version>
+			<scope>test</scope>
+		</dependency>
+
 
 		<!-- PROVIDED -->
 		<dependency>

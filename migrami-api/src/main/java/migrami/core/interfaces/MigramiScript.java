@@ -1,24 +1,24 @@
 package migrami.core.interfaces;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.InputStreamReader;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@EqualsAndHashCode(of= {"category", "name"})
 public class MigramiScript {
-  private static final String LINE_SEPARATOR = System.getProperty("line.separator", "\r\n");
-  
   private final MigramiCategory category;
   
   private final MigramiScriptName name;
 
-  private final byte[] content;
+  private final String content;
 
   private final MigramiChecksum checksum;
-
-  public static MigramiScript create(MigramiCategory category, MigramiScriptName name, byte[] content, MigramiChecksum checksum) {
+  
+  public static MigramiScript create(MigramiCategory category, MigramiChecksumFactory checksumFactory, String nameURI, String content) {
+    MigramiChecksum checksum = checksumFactory.create(content);
+    MigramiScriptName name = MigramiScriptName.create(nameURI);
+    
     return new MigramiScript(category, name, content, checksum);
   }
   
@@ -26,23 +26,8 @@ public class MigramiScript {
     return category;
   }
 
-  public byte[] content() {
+  public String content() {
     return content;
-  }
-  
-  public String contentAsString() {
-    StringBuilder content = new StringBuilder();
-
-    try(BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(this.content)))){
-      String line;
-      while ((line = reader.readLine()) != null) {
-        content.append(line).append(LINE_SEPARATOR);
-      }
-    } catch(Exception e) {
-      throw new IllegalStateException(e);
-    }
-
-    return content.toString();
   }
 
   public MigramiChecksum checksum() {
@@ -59,5 +44,10 @@ public class MigramiScript {
   
   public MigramiScriptName name() {
     return name;
+  }
+  
+  @Override
+  public String toString() {
+    return this.name().toString();
   }
 }

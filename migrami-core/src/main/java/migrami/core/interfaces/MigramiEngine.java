@@ -8,12 +8,14 @@ public abstract class MigramiEngine implements Migrami {
   private final MigramiCategoryScriptLoader loader;
 
   private final MigramiSnapshotRepository repository;
+  
+  private final MigramiChecksumFactory checksumFactory;
 
   @Override
   public final void migrate() {
     this.before();
     this.loader.foreach((category, loader) -> {
-      loader.load().forEach(this::baseline);
+      loader.load(category, this.checksumFactory).forEach(this::baseline);
     });
     this.after();
   }
@@ -23,7 +25,7 @@ public abstract class MigramiEngine implements Migrami {
     if (!snapshot.checksum().equals(script.checksum())) {
       String message =
           String.format("Checksum aplied to script %s is different from a stored migrated version",
-              script.name().fullName());
+              script.name().value());
       throw new IllegalStateException(message);
     }
     snapshot.execute(this::migrate);

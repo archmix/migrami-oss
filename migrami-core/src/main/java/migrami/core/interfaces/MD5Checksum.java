@@ -1,24 +1,21 @@
 package migrami.core.interfaces;
 
-import java.io.InputStream;
 import java.security.MessageDigest;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @EqualsAndHashCode
+@ToString
 class MD5Checksum implements MigramiChecksum {
   private final String value;
 
-  static MD5Checksum create(InputStream content) {
+  static MD5Checksum create(String content) {
     try {
       MessageDigest md = MessageDigest.getInstance("MD5");
-      byte[] buffer = new byte[content.available()];
-      int bytesRead;
-      while ((bytesRead = content.read(buffer)) != -1) {
-        md.update(buffer, 0, bytesRead);
-      }
+      md.update(content.getBytes());
 
       StringBuilder result = new StringBuilder();
       for (byte b : md.digest()) {

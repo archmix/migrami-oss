@@ -29,7 +29,7 @@ class MigramiSQLExecutor {
   
   public void execute(MigramiScript script) {
     connection.ifPresent(connection ->{
-      this.execute(connection, script.contentAsString());
+      this.execute(connection, script.content());
     });
   }
   

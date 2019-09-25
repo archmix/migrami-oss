@@ -6,18 +6,18 @@ import lombok.RequiredArgsConstructor;
 public interface MigramiCategory {
   String name();
   
-  String location();
+  String path();
   
   @RequiredArgsConstructor(staticName = "create")
   @EqualsAndHashCode(of = {"name"})
   public static class MigramiCategoryAdapter implements MigramiCategory{
     private final String name;
     
-    private final String location;
+    private final String path;
     
     @Override
-    public String location() {
-      return this.location;
+    public String path() {
+      return this.path;
     }
     
     @Override

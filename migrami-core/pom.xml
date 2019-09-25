@@ -18,12 +18,24 @@
 			<groupId>migrami</groupId>
 			<artifactId>migrami-api</artifactId>
 		</dependency>
-		
+
 		<!-- PROVIDED -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
+		</dependency>
+
+		<!-- TEST -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>${mockitoVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junitVersion}</version>
 		</dependency>
 	</dependencies>
 </project>
