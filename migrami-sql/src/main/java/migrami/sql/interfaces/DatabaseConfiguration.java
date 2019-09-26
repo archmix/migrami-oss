@@ -2,22 +2,24 @@ package migrami.sql.interfaces;
 
 import static walled.api.interfaces.ValueValidation.notEmpty;
 import static walled.api.interfaces.ValueValidation.notNull;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import migrami.sql.infra.DatabaseVendor;
 import walled.api.interfaces.CompositeValidation;
 
-@NoArgsConstructor
-@Setter(value = AccessLevel.PACKAGE)
 class DatabaseConfiguration {
-  private String url;
+  private final String url;
 
-  private String user;
+  private final String user;
 
-  private String password;
+  private final String password;
 
-  private DatabaseVendor vendor;
+  private final DatabaseVendor vendor;
+  
+  public DatabaseConfiguration(String url, String user, String password) {
+    this.url = url;
+    this.user = user;
+    this.password = password;
+    this.vendor = DatabaseVendor.detectDatabase(url);
+  }
 
   public String password() {
     return password;

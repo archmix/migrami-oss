@@ -11,11 +11,12 @@ public class MigramiSQLEngineBuilder extends MigramiBuilder<MigramiSQLEngineBuil
   private DatabaseConfiguration configuration;
   
   public MigramiSQLEngineBuilder withDatasource(String url, String username, String password) {
-    this.configuration = new DatabaseConfiguration();
-    this.configuration.setPassword(password);
-    this.configuration.setUrl(url);
-    this.configuration.setUser(username);
+    this.configuration = new DatabaseConfiguration(url, username, password);
     return this;
+  }
+  
+  public MigramiSQLEngineBuilder withTableSnapshotRepository() {
+    return this.withSnapshotRepository(new TableSnapshotRepository());
   }
   
   @Override

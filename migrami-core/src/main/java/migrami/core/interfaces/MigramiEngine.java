@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 public abstract class MigramiEngine implements Migrami {
   private final MigramiCategoryScriptLoader loader;
 
-  private final MigramiSnapshotRepository repository;
+  protected final MigramiSnapshotRepository repository;
   
   private final MigramiChecksumFactory checksumFactory;
 

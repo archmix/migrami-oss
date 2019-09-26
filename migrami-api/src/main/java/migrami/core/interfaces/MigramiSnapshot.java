@@ -24,6 +24,10 @@ public class MigramiSnapshot {
     this.scriptName = scriptName;
     this.script = script;
   }
+  
+  public static MigramiSnapshot valueOf(MigramiCategory category, MigramiChecksum checksum, MigramiScriptName scriptName) {
+    return new MigramiSnapshot(category, checksum, scriptName);
+  }
 
   public static MigramiSnapshot create(MigramiScript script) {
     return new MigramiSnapshot(script.category(), script.checksum(), script.name(), Optional.of(script));
@@ -31,6 +35,10 @@ public class MigramiSnapshot {
   
   public void execute(Consumer<MigramiScript> execution) {
     this.script.ifPresent(execution::accept);
+  }
+  
+  public void visit(Consumer<MigramiScript> persist) {
+    this.script.ifPresent(persist);
   }
   
   public MigramiCategory category() {

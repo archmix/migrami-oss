@@ -39,11 +39,11 @@ public class MigramiScriptName implements Comparable<MigramiScriptName>{
     return this.version;
   }
   
-  String description() {
+  public String description() {
     return this.description;
   }
   
-  String value() {
+  public String value() {
     return value;
   }
   

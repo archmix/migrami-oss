@@ -7,26 +7,29 @@ import migrami.core.interfaces.MigramiScript;
 import migrami.core.interfaces.MigramiSnapshotRepository;
 
 class MigramiSQLEngine extends MigramiEngine {
-  private final MigramiSQLExecutor migramiExecutor;
+  private final MigramiSQLExecutor sqlExecutor;
   
   MigramiSQLEngine(DatabaseConfiguration databaseConfiguration, MigramiCategoryScriptLoader loader,
       MigramiChecksumFactory checksumFactory, MigramiSnapshotRepository repository) {
     super(loader, repository, checksumFactory);
-    this.migramiExecutor = MigramiSQLExecutor.create(databaseConfiguration);
+    this.sqlExecutor = MigramiSQLExecutor.create(databaseConfiguration);
   }
   
   @Override
   protected void before() {
-    this.migramiExecutor.openConnection();
+    this.sqlExecutor.openConnection();
+    if(this.repository instanceof TableSnapshotRepository) {
+      ((TableSnapshotRepository) this.repository).initialize(this.sqlExecutor);
+    }
   }
 
   @Override
   protected void migrate(MigramiScript script) {
-    this.migramiExecutor.execute(script);
+    this.sqlExecutor.execute(script);
   }
   
   @Override
   protected void after() {
-    this.migramiExecutor.closeConnection();
+    this.sqlExecutor.closeConnection();
   }
 }

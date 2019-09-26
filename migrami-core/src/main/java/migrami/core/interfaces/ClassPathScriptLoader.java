@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import lombok.RequiredArgsConstructor;
+import migrami.core.infra.Streams;
 
 @RequiredArgsConstructor
 class ClassPathScriptLoader implements MigramiScriptLoader {
@@ -50,17 +51,8 @@ class ClassPathScriptLoader implements MigramiScriptLoader {
   }
 
   private String getContent(Path path, String scriptName) {
-    try {
-      String filename = Paths.get(path.toString(), scriptName).toString();
-      
-      InputStream input = this.getClassLoader().getResourceAsStream(filename);
-      byte[] buffer = new byte[input.available()];
-      input.read(buffer);
-      
-      return new String(buffer).replace("\n", "");
-    } catch(IOException e) {
-      throw new IllegalStateException(e);
-    }
+    String filename = Paths.get(path.toString(), scriptName).toString();
+    return Streams.read(filename);
   }
 
   private Iterable<String> getScripts(URL url) throws IOException {
