@@ -32,6 +32,16 @@ class MigramiSQLExecutor {
     }
   }
 
+  public boolean exists(String table) {
+    try {
+      ResultSet tables =
+          this.connection().getMetaData().getTables(null, null, table, new String[] {"TABLE"});
+      return tables.next();
+    } catch (SQLException e) {
+      throw new IllegalStateException(e);
+    }
+  }
+
   public void execute(MigramiScript script) {
     connection.ifPresent(connection -> {
       this.execute(connection, script.content());
@@ -44,34 +54,35 @@ class MigramiSQLExecutor {
     });
   }
 
-  <R> R query(String sql, Consumer<PreparedStatement> parameters, Function<ResultSet, R> converter) {
+  <R> R query(String sql, Consumer<PreparedStatement> parameters,
+      Function<ResultSet, R> converter) {
     Connection connection = connection();
-    try(PreparedStatement ps = connection.prepareStatement(sql)){
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
       parameters.accept(ps);
-      
+
       ResultSet rs = ps.executeQuery();
       R value = null;
-      while(rs.next()) {
+      while (rs.next()) {
         value = converter.apply(rs);
       }
       QuietCloseable.close(rs);
       return value;
-    } catch(SQLException e) {
+    } catch (SQLException e) {
       throw new IllegalStateException(e);
     }
   }
-  
+
   void insert(String sql, Consumer<PreparedStatement> values) {
     Connection connection = connection();
-    try(PreparedStatement ps = connection.prepareStatement(sql)){
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
       values.accept(ps);
-      
+
       Integer rowsAffected = ps.executeUpdate();
-      if(rowsAffected != 1) {
+      if (rowsAffected != 1) {
         String message = String.format("Query %s affected %s rows", sql, rowsAffected);
         throw new IllegalStateException(message);
       }
-    } catch(SQLException e) {
+    } catch (SQLException e) {
       throw new IllegalStateException(e);
     }
   }
@@ -101,9 +112,10 @@ class MigramiSQLExecutor {
       throw new IllegalStateException(e);
     }
   }
-  
+
   private Connection connection() {
-    return this.connection.orElseThrow(() -> new IllegalStateException("Connection was not opened with database"));
+    return this.connection
+        .orElseThrow(() -> new IllegalStateException("Connection was not opened with database"));
   }
 
   public void closeConnection() {

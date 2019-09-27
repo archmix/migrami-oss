@@ -27,8 +27,11 @@ class TableSnapshotRepository implements MigramiSnapshotRepository {
 
   public void initialize(MigramiSQLExecutor sqlExecutor) {
     this.sqlExecutor = sqlExecutor;
-    String sql = this.loadScript(CREATE_SNAPSHOT_TABLE);
-    sqlExecutor.execute(sql);
+    
+    if(!sqlExecutor.exists("migrami_snapshot")) {
+      String sql = this.loadScript(CREATE_SNAPSHOT_TABLE);
+      sqlExecutor.execute(sql);
+    }
 
     this.selectSQL = this.loadScript(SELECT_SNAPSHOT);
     this.insertSQL = this.loadScript(INSERT_SNAPSHOT);
