@@ -3,15 +3,14 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>tech.mrbraz</groupId>
+		<groupId>org.archmix</groupId>
 		<artifactId>java-parent</artifactId>
 		<version>1.8</version>
 		<relativePath />
 	</parent>
 
-	<groupId>migrami</groupId>
 	<artifactId>migrami-oss</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<modules>
@@ -21,7 +20,7 @@
 	</modules>
 
 	<properties>
-		<migramiVersion>0.0.2-SNAPSHOT</migramiVersion>
+		<migramiVersion>0.0.1-SNAPSHOT</migramiVersion>
 		<slf4jVersion>1.7.25</slf4jVersion>
 		<log4jVersion>1.2.17</log4jVersion>
 	</properties>
@@ -29,20 +28,21 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>migrami</groupId>
+				<groupId>org.archmix</groupId>
 				<artifactId>migrami-api</artifactId>
 				<version>${migramiVersion}</version>
 			</dependency>
 			<dependency>
-				<groupId>migrami</groupId>
+				<groupId>org.archmix</groupId>
 				<artifactId>migrami-core</artifactId>
 				<version>${migramiVersion}</version>
 			</dependency>
 			<dependency>
-				<groupId>migrami</groupId>
+				<groupId>org.archmix</groupId>
 				<artifactId>migrami-sql</artifactId>
 				<version>${migramiVersion}</version>
 			</dependency>
+
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
@@ -52,15 +52,6 @@
 	</dependencyManagement>
 
 	<scm>
-		<developerConnection>scm:git:ssh://git@github.com/mrbraztech/${project.artifactId}.git</developerConnection>
-	  <tag>HEAD</tag>
+		<developerConnection>scm:git:ssh://git@github.com/archmix/${project.artifactId}.git</developerConnection>
   </scm>
-
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-source-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
 </project>
