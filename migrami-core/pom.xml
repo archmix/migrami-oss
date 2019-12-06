@@ -3,9 +3,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>migrami</groupId>
+		<groupId>org.archmix</groupId>
 		<artifactId>migrami-oss</artifactId>
-		<version>0.0.2-SNAPSHOT</version>
+		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>migrami-core</artifactId>
@@ -13,7 +13,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>migrami</groupId>
+			<groupId>org.archmix</groupId>
 			<artifactId>migrami-api</artifactId>
 		</dependency>
 
