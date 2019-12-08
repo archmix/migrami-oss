@@ -22,26 +22,26 @@ public enum DatabaseVendor {
   SAP_HANA("jdbc:sap:", "com.sap.db.jdbc.Driver"),
   INFORMIX("jdbc:informix-sqli:", "com.informix.jdbc.IfxDriver"),
   IGNITE("jdbc:ignite", "org.apache.ignite.IgniteJdbcThinDriver");
-  
+
   private String prefix;
   private String driver;
-  
+
   private DatabaseVendor(String prefix, String driver) {
     this.prefix = prefix;
     this.driver = driver;
   }
-  
-  public String driver() {
-    return driver;
-  }
-  
+
   public static DatabaseVendor detectDatabase(String url) {
-    for(DatabaseVendor vendor : DatabaseVendor.values()) {
-      if(url.startsWith(vendor.prefix)) {
+    for (DatabaseVendor vendor : DatabaseVendor.values()) {
+      if (url.startsWith(vendor.prefix)) {
         return vendor;
       }
     }
-    
+
     return null;
+  }
+
+  public String driver() {
+    return driver;
   }
 }

@@ -1,10 +1,11 @@
 package migrami.core.interfaces;
 
-import java.security.MessageDigest;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+
+import java.security.MessageDigest;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @EqualsAndHashCode

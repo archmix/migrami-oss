@@ -1,9 +1,5 @@
 package migrami.sql.interfaces;
 
-import java.nio.file.Paths;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import migrami.core.infra.Streams;
 import migrami.core.interfaces.MigramiCategory;
 import migrami.core.interfaces.MigramiCategory.MigramiCategoryAdapter;
@@ -13,22 +9,25 @@ import migrami.core.interfaces.MigramiScriptName;
 import migrami.core.interfaces.MigramiSnapshot;
 import migrami.core.interfaces.MigramiSnapshotRepository;
 
-class TableSnapshotRepository implements MigramiSnapshotRepository {
-  private MigramiSQLExecutor sqlExecutor;
+import java.nio.file.Paths;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
+class TableSnapshotRepository implements MigramiSnapshotRepository {
   private static final String SCRIPTS_PATH =
-      TableSnapshotRepository.class.getPackage().getName().replace(".", "/");
+    TableSnapshotRepository.class.getPackage().getName().replace(".", "/");
   private static final String CREATE_SNAPSHOT_TABLE = "create_snapshot_table.sql";
   private static final String SELECT_SNAPSHOT = "select_snapshot.sql";
   private static final String INSERT_SNAPSHOT = "insert_snapshot.sql";
-
+  private MigramiSQLExecutor sqlExecutor;
   private String selectSQL;
   private String insertSQL;
 
   public void initialize(MigramiSQLExecutor sqlExecutor) {
     this.sqlExecutor = sqlExecutor;
-    
-    if(!sqlExecutor.exists("migrami_snapshot")) {
+
+    if (!sqlExecutor.exists("migrami_snapshot")) {
       String sql = this.loadScript(CREATE_SNAPSHOT_TABLE);
       sqlExecutor.execute(sql);
     }
@@ -61,7 +60,7 @@ class TableSnapshotRepository implements MigramiSnapshotRepository {
   @Override
   public void save(MigramiSnapshot snapshot) {
     snapshot.visit(script -> {
-      this.sqlExecutor.insert(this.insertSQL, values ->{
+      this.sqlExecutor.insert(this.insertSQL, values -> {
         this.set(values, 1, script.category().name());
         this.set(values, 2, script.name().value());
         this.set(values, 3, snapshot.checksum().value());

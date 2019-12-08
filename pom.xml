@@ -1,57 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.archmix</groupId>
-		<artifactId>java-parent</artifactId>
-		<version>1.8</version>
-		<relativePath />
-	</parent>
+  <parent>
+    <groupId>org.archmix</groupId>
+    <artifactId>java-parent</artifactId>
+    <version>1.8</version>
+    <relativePath/>
+  </parent>
 
-	<artifactId>migrami-oss</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+  <artifactId>migrami-oss</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
-	<modules>
-		<module>migrami-api</module>
-		<module>migrami-core</module>
-		<module>migrami-sql</module>
-	</modules>
+  <modules>
+    <module>migrami-api</module>
+    <module>migrami-core</module>
+    <module>migrami-sql</module>
+  </modules>
 
-	<properties>
-		<migramiVersion>0.0.1-SNAPSHOT</migramiVersion>
-		<slf4jVersion>1.7.25</slf4jVersion>
-		<log4jVersion>1.2.17</log4jVersion>
-	</properties>
+  <properties>
+    <migramiVersion>0.0.1-SNAPSHOT</migramiVersion>
+    <slf4jVersion>1.7.25</slf4jVersion>
+    <log4jVersion>1.2.17</log4jVersion>
+  </properties>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.archmix</groupId>
-				<artifactId>migrami-api</artifactId>
-				<version>${migramiVersion}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.archmix</groupId>
-				<artifactId>migrami-core</artifactId>
-				<version>${migramiVersion}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.archmix</groupId>
-				<artifactId>migrami-sql</artifactId>
-				<version>${migramiVersion}</version>
-			</dependency>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.archmix</groupId>
+        <artifactId>migrami-api</artifactId>
+        <version>${migramiVersion}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.archmix</groupId>
+        <artifactId>migrami-core</artifactId>
+        <version>${migramiVersion}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.archmix</groupId>
+        <artifactId>migrami-sql</artifactId>
+        <version>${migramiVersion}</version>
+      </dependency>
 
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>${slf4jVersion}</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${slf4jVersion}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
-	<scm>
-		<developerConnection>scm:git:ssh://git@github.com/archmix/${project.artifactId}.git</developerConnection>
+  <scm>
+    <developerConnection>scm:git:ssh://git@github.com/archmix/${project.artifactId}.git</developerConnection>
   </scm>
 </project>

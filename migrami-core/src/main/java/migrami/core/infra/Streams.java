@@ -5,7 +5,7 @@ import java.io.InputStream;
 
 public class Streams {
   public static String read(String resourceName) {
-    try (InputStream input = Streams.class.getClassLoader().getResourceAsStream(resourceName)){
+    try (InputStream input = Streams.class.getClassLoader().getResourceAsStream(resourceName)) {
       byte[] buffer = new byte[input.available()];
       input.read(buffer);
 

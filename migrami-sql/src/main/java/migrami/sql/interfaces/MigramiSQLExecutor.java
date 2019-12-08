@@ -1,5 +1,9 @@
 package migrami.sql.interfaces;
 
+import lombok.RequiredArgsConstructor;
+import migrami.core.interfaces.MigramiScript;
+import migrami.sql.infra.DatabaseVendor;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -9,9 +13,6 @@ import java.sql.Statement;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import lombok.RequiredArgsConstructor;
-import migrami.core.interfaces.MigramiScript;
-import migrami.sql.infra.DatabaseVendor;
 
 @RequiredArgsConstructor(staticName = "create")
 class MigramiSQLExecutor {
@@ -25,7 +26,7 @@ class MigramiSQLExecutor {
       Class.forName(vendor.driver());
 
       Connection connection = DriverManager.getConnection(configuration.url(), configuration.user(),
-          configuration.password());
+        configuration.password());
       this.connection = Optional.of(connection);
     } catch (Exception e) {
       throw new IllegalStateException(e);
@@ -35,7 +36,7 @@ class MigramiSQLExecutor {
   public boolean exists(String table) {
     try {
       ResultSet tables =
-          this.connection().getMetaData().getTables(null, null, table, new String[] {"TABLE"});
+        this.connection().getMetaData().getTables(null, null, table, new String[]{"TABLE"});
       return tables.next();
     } catch (SQLException e) {
       throw new IllegalStateException(e);
@@ -55,7 +56,7 @@ class MigramiSQLExecutor {
   }
 
   <R> R query(String sql, Consumer<PreparedStatement> parameters,
-      Function<ResultSet, R> converter) {
+              Function<ResultSet, R> converter) {
     Connection connection = connection();
     try (PreparedStatement ps = connection.prepareStatement(sql)) {
       parameters.accept(ps);
@@ -115,7 +116,7 @@ class MigramiSQLExecutor {
 
   private Connection connection() {
     return this.connection
-        .orElseThrow(() -> new IllegalStateException("Connection was not opened with database"));
+      .orElseThrow(() -> new IllegalStateException("Connection was not opened with database"));
   }
 
   public void closeConnection() {

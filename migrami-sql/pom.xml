@@ -1,44 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.archmix</groupId>
-		<artifactId>migrami-oss</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
+  <parent>
+    <groupId>org.archmix</groupId>
+    <artifactId>migrami-oss</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
 
-	<artifactId>migrami-sql</artifactId>
-	<packaging>jar</packaging>
+  <artifactId>migrami-sql</artifactId>
+  <packaging>jar</packaging>
 
-	<properties>
-		<walleedVersion>0.0.1</walleedVersion>
-		<h2Version>1.4.199</h2Version>
-	</properties>
+  <properties>
+    <walleedVersion>0.0.1</walleedVersion>
+    <h2Version>1.4.199</h2Version>
+  </properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.archmix</groupId>
-			<artifactId>migrami-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.archmix</groupId>
-			<artifactId>walleed</artifactId>
-			<version>${walleedVersion}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<version>${h2Version}</version>
-			<scope>test</scope>
-		</dependency>
+  <dependencies>
+    <dependency>
+      <groupId>org.archmix</groupId>
+      <artifactId>migrami-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.archmix</groupId>
+      <artifactId>walleed</artifactId>
+      <version>${walleedVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <version>${h2Version}</version>
+      <scope>test</scope>
+    </dependency>
 
 
-		<!-- PROVIDED -->
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<scope>provided</scope>
-		</dependency>
-	</dependencies>
+    <!-- PROVIDED -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
 </project>

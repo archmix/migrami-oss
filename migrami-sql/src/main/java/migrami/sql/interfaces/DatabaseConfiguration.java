@@ -1,9 +1,9 @@
 package migrami.sql.interfaces;
 
-import static walled.api.interfaces.ValueValidation.notEmpty;
-import static walled.api.interfaces.ValueValidation.notNull;
 import migrami.sql.infra.DatabaseVendor;
 import walled.api.interfaces.CompositeValidation;
+
+import static walled.api.interfaces.ValueValidation.*;
 
 class DatabaseConfiguration {
   private final String url;
@@ -13,7 +13,7 @@ class DatabaseConfiguration {
   private final String password;
 
   private final DatabaseVendor vendor;
-  
+
   public DatabaseConfiguration(String url, String user, String password) {
     this.url = url;
     this.user = user;
@@ -39,7 +39,7 @@ class DatabaseConfiguration {
 
   public void validate() {
     CompositeValidation.create().add(notEmpty(this.url).withMessage("Invalid database url"))
-        .add(notEmpty(this.user).withMessage("Invalid database user"))
-        .add(notNull(this.vendor).withMessage("Database is not supported yet")).validate();
+      .add(notEmpty(this.user).withMessage("Invalid database user"))
+      .add(notNull(this.vendor).withMessage("Database is not supported yet")).validate();
   }
 }

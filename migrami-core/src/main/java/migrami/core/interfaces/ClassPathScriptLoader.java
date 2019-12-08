@@ -1,5 +1,8 @@
 package migrami.core.interfaces;
 
+import lombok.RequiredArgsConstructor;
+import migrami.core.infra.Streams;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,8 +15,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import lombok.RequiredArgsConstructor;
-import migrami.core.infra.Streams;
 
 @RequiredArgsConstructor
 class ClassPathScriptLoader implements MigramiScriptLoader {
@@ -25,7 +26,7 @@ class ClassPathScriptLoader implements MigramiScriptLoader {
 
   @Override
   public Iterable<MigramiScript> load(MigramiCategory category,
-      MigramiChecksumFactory checksumFactory) {
+                                      MigramiChecksumFactory checksumFactory) {
 
     try {
       Path path = Paths.get(this.path, category.path());
@@ -34,7 +35,7 @@ class ClassPathScriptLoader implements MigramiScriptLoader {
       List<MigramiScript> scripts = new ArrayList<MigramiScript>();
       if (resources.hasMoreElements()) {
         URL resource = resources.nextElement();
-        this.getScripts(resource).forEach(scriptName ->{
+        this.getScripts(resource).forEach(scriptName -> {
           String content = this.getContent(path, scriptName);
           MigramiScript script = this.toMigramiScript(category, checksumFactory, scriptName, content);
           scripts.add(script);
@@ -57,20 +58,20 @@ class ClassPathScriptLoader implements MigramiScriptLoader {
 
   private Iterable<String> getScripts(URL url) throws IOException {
     Set<String> scripts = new TreeSet<>();
-    try(InputStream input = url.openConnection().getInputStream();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(input))){
-      
+    try (InputStream input = url.openConnection().getInputStream();
+         BufferedReader reader = new BufferedReader(new InputStreamReader(input))) {
+
       String resource = null;
       while ((resource = reader.readLine()) != null) {
         scripts.add(resource);
       }
     }
-    
+
     return scripts;
   }
 
   private MigramiScript toMigramiScript(MigramiCategory category,
-      MigramiChecksumFactory checksumFactory, String name, String content) {
+                                        MigramiChecksumFactory checksumFactory, String name, String content) {
     return MigramiScript.create(category, checksumFactory, name, content);
   }
 }

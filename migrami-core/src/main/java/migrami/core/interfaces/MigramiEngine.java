@@ -5,10 +5,8 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class MigramiEngine implements Migrami {
-  private final MigramiCategoryScriptLoader loader;
-
   protected final MigramiSnapshotRepository repository;
-  
+  private final MigramiCategoryScriptLoader loader;
   private final MigramiChecksumFactory checksumFactory;
 
   @Override
@@ -24,8 +22,8 @@ public abstract class MigramiEngine implements Migrami {
     MigramiSnapshot snapshot = this.repository.load(script);
     if (!snapshot.checksum().equals(script.checksum())) {
       String message =
-          String.format("Checksum aplied to script %s is different from a stored migrated version",
-              script.name().value());
+        String.format("Checksum aplied to script %s is different from a stored migrated version",
+          script.name().value());
       throw new IllegalStateException(message);
     }
     snapshot.execute(this::migrate);
