@@ -11,7 +11,7 @@ class MigramiSQLEngine extends MigramiEngine {
 
   MigramiSQLEngine(DatabaseConfiguration databaseConfiguration, MigramiCategoryScriptLoader loader,
                    MigramiChecksumFactory checksumFactory, MigramiSnapshotRepository repository) {
-    super(loader, repository, checksumFactory);
+    super(repository, loader, checksumFactory);
     this.sqlExecutor = MigramiSQLExecutor.create(databaseConfiguration);
   }
 
