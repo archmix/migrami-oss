@@ -20,7 +20,7 @@ public abstract class MigramiEngine implements Migrami {
 
   private void baseline(MigramiScript script) {
     MigramiSnapshot snapshot = this.repository.load(script);
-    if (!snapshot.checksum().equals(script.checksum())) {
+    if (!snapshot.checksum().value().equals(script.checksum().value())) {
       String message =
         String.format("Checksum aplied to script %s is different from a stored migrated version",
           script.name().value());

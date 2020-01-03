@@ -20,6 +20,7 @@ class TableSnapshotRepository implements MigramiSnapshotRepository {
   private static final String CREATE_SNAPSHOT_TABLE = "create_snapshot_table.sql";
   private static final String SELECT_SNAPSHOT = "select_snapshot.sql";
   private static final String INSERT_SNAPSHOT = "insert_snapshot.sql";
+  private static final String SNAPSHOT_TABLE_NAME = "migrami_snapshot";
   private MigramiSQLExecutor sqlExecutor;
   private String selectSQL;
   private String insertSQL;
@@ -27,7 +28,7 @@ class TableSnapshotRepository implements MigramiSnapshotRepository {
   public void initialize(MigramiSQLExecutor sqlExecutor) {
     this.sqlExecutor = sqlExecutor;
 
-    if (!sqlExecutor.exists("migrami_snapshot")) {
+    if (!sqlExecutor.exists(SNAPSHOT_TABLE_NAME) && !sqlExecutor.exists(SNAPSHOT_TABLE_NAME.toUpperCase())) {
       String sql = this.loadScript(CREATE_SNAPSHOT_TABLE);
       sqlExecutor.execute(sql);
     }
