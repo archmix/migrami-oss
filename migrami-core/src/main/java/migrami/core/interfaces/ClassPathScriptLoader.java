@@ -30,7 +30,7 @@ class ClassPathScriptLoader implements MigramiScriptLoader {
 
     try {
       Path path = Paths.get(this.path, category.path());
-      Enumeration<URL> resources = getClassLoader().getResources(path.toString());
+      Enumeration<URL> resources = ClassLoader.getSystemResources(path.toString());
 
       List<MigramiScript> scripts = new ArrayList<MigramiScript>();
       if (resources.hasMoreElements()) {
@@ -45,10 +45,6 @@ class ClassPathScriptLoader implements MigramiScriptLoader {
     } catch (IOException e) {
       throw new IllegalStateException(e);
     }
-  }
-
-  private ClassLoader getClassLoader() {
-    return this.getClass().getClassLoader();
   }
 
   private String getContent(Path path, String scriptName) {
