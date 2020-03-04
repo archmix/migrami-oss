@@ -3,13 +3,11 @@ package migrami.core.interfaces;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 
 import java.security.MessageDigest;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @EqualsAndHashCode
-@ToString
 class MD5Checksum implements MigramiChecksum {
   private final String value;
 
@@ -32,5 +30,10 @@ class MD5Checksum implements MigramiChecksum {
   @Override
   public String value() {
     return value;
+  }
+
+  @Override
+  public String toString() {
+    return this.value;
   }
 }

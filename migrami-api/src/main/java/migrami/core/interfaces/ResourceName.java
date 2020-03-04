@@ -2,7 +2,6 @@ package migrami.core.interfaces;
 
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 
 import java.util.jar.JarEntry;
 

@@ -5,8 +5,6 @@ import migrami.core.interfaces.ResourceName;
 import java.net.URL;
 
 public interface ResourceResolver {
-  String FILE = "file";
-  String JAR_EXTENSION = ".jar";
 
   boolean accept(URL location);
 
