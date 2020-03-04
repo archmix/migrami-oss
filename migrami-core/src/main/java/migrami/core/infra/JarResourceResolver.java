@@ -7,7 +7,6 @@ import migrami.core.interfaces.ResourceName;
 import org.slf4j.Logger;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -16,10 +15,15 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.regex.Pattern;
 
+import static migrami.core.interfaces.ResourceName.SLASH;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 class JarResourceResolver implements ResourceResolver {
   private static final String FILE_PROTOCOL = "file:";
   private static final String JRE_LIB = "/jre/lib/";
+
+  private static final String FOLDER_REGEX = "(.*)!\\/";
+  private static final String JAR = "jar";
 
   private final Logger logger = MigramiLogger.logger();
   private static final JarResourceResolver valueOf = new JarResourceResolver();
@@ -34,8 +38,7 @@ class JarResourceResolver implements ResourceResolver {
       return false;
     }
 
-    return FILE.equals(location.getProtocol())
-      && location.getPath().endsWith(JAR_EXTENSION)
+    return JAR.equals(location.getProtocol())
       && !location.getPath().matches(".*" + Pattern.quote(JRE_LIB) + ".*");
   }
 
@@ -45,9 +48,15 @@ class JarResourceResolver implements ResourceResolver {
 
     try(JarFile jarFile = this.jarFile(location)) {
       Enumeration<JarEntry> entries = jarFile.entries();
+      String folderPath = location.getPath().replaceAll(FOLDER_REGEX, "").concat(SLASH);
+
       while (entries.hasMoreElements()) {
-        ResourceName resourceName = ResourceName.create(entries.nextElement());
-        names.add(resourceName);
+        String name = entries.nextElement().getName();
+
+        if (!name.equals(folderPath) && name.startsWith(folderPath)) {
+          ResourceName resourceName = ResourceName.create(name.substring(folderPath.length()));
+          names.add(resourceName);
+        }
       }
     } catch (IOException | SecurityException e) {
       logger.warn("Skipping unloadable jar file: " + location + " (" + e.getMessage() + ")");
@@ -57,10 +66,7 @@ class JarResourceResolver implements ResourceResolver {
   }
 
   private JarFile jarFile(URL location) throws IOException {
-    try {
-      return new JarFile(location.toURI().getSchemeSpecificPart());
-    } catch (URISyntaxException ex) {
-      return new JarFile(location.getPath().substring(FILE_PROTOCOL.length()));
-    }
+    return new JarFile(getClass().getProtectionDomain()
+      .getCodeSource().getLocation().toString().substring(FILE_PROTOCOL.length()));
   }
 }

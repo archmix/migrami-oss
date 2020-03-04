@@ -15,6 +15,8 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 class RegularResourceResolver implements ResourceResolver {
   private static final RegularResourceResolver valueOf = new RegularResourceResolver();
+  private static final String FILE = "file";
+  private static final String JAR_EXTENSION = ".jar";
 
   public static RegularResourceResolver valueOf() {
     return valueOf;
