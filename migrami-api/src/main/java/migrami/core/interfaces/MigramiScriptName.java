@@ -13,7 +13,9 @@ public class MigramiScriptName implements Comparable<MigramiScriptName> {
 
   private final String description;
 
-  public static MigramiScriptName create(String nameURI) {
+  public static MigramiScriptName create(ResourceName resourceName) {
+    String nameURI = resourceName.toString();
+
     if (!nameURI.startsWith("V")) {
       throw new MigramiScriptNameViolationException("Script name should start with V.");
     }

@@ -1,7 +1,8 @@
 package migrami.core.interfaces;
 
 import lombok.RequiredArgsConstructor;
-import migrami.core.infra.Streams;
+import migrami.core.infra.ResourceResolver;
+import migrami.core.infra.ResourceStream;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -34,10 +35,10 @@ class ClassPathScriptLoader implements MigramiScriptLoader {
 
       List<MigramiScript> scripts = new ArrayList<MigramiScript>();
       if (resources.hasMoreElements()) {
-        URL resource = resources.nextElement();
-        this.getScripts(resource).forEach(scriptName -> {
-          String content = this.getContent(path, scriptName);
-          MigramiScript script = this.toMigramiScript(category, checksumFactory, scriptName, content);
+        URL location = resources.nextElement();
+        ResourceResolver.resolver(location).resolve().forEach(resourceName ->{
+          String content = ResourceStream.read(path, resourceName);
+          MigramiScript script = this.toMigramiScript(category, checksumFactory, resourceName, content);
           scripts.add(script);
         });
       }
@@ -51,27 +52,8 @@ class ClassPathScriptLoader implements MigramiScriptLoader {
     return this.getClass().getClassLoader();
   }
 
-  private String getContent(Path path, String scriptName) {
-    String filename = Paths.get(path.toString(), scriptName).toString();
-    return Streams.read(filename);
-  }
-
-  private Iterable<String> getScripts(URL url) throws IOException {
-    Set<String> scripts = new TreeSet<>();
-    try (InputStream input = url.openConnection().getInputStream();
-         BufferedReader reader = new BufferedReader(new InputStreamReader(input))) {
-
-      String resource = null;
-      while ((resource = reader.readLine()) != null) {
-        scripts.add(resource);
-      }
-    }
-
-    return scripts;
-  }
-
   private MigramiScript toMigramiScript(MigramiCategory category,
-                                        MigramiChecksumFactory checksumFactory, String name, String content) {
-    return MigramiScript.create(category, checksumFactory, name, content);
+                                        MigramiChecksumFactory checksumFactory, ResourceName resourceName, String content) {
+    return MigramiScript.create(category, checksumFactory, resourceName, content);
   }
 }

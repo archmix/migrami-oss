@@ -1,6 +1,6 @@
 package migrami.sql.interfaces;
 
-import migrami.core.infra.Streams;
+import migrami.core.infra.ResourceStream;
 import migrami.core.interfaces.MigramiCategory;
 import migrami.core.interfaces.MigramiCategory.MigramiCategoryAdapter;
 import migrami.core.interfaces.MigramiChecksum;
@@ -8,7 +8,9 @@ import migrami.core.interfaces.MigramiScript;
 import migrami.core.interfaces.MigramiScriptName;
 import migrami.core.interfaces.MigramiSnapshot;
 import migrami.core.interfaces.MigramiSnapshotRepository;
+import migrami.core.interfaces.ResourceName;
 
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,9 +19,9 @@ import java.sql.SQLException;
 class TableSnapshotRepository implements MigramiSnapshotRepository {
   private static final String SCRIPTS_PATH =
     TableSnapshotRepository.class.getPackage().getName().replace(".", "/");
-  private static final String CREATE_SNAPSHOT_TABLE = "create_snapshot_table.sql";
-  private static final String SELECT_SNAPSHOT = "select_snapshot.sql";
-  private static final String INSERT_SNAPSHOT = "insert_snapshot.sql";
+  private static final ResourceName CREATE_SNAPSHOT_TABLE = ResourceName.create("create_snapshot_table.sql");
+  private static final ResourceName SELECT_SNAPSHOT = ResourceName.create("select_snapshot.sql");
+  private static final ResourceName INSERT_SNAPSHOT = ResourceName.create("insert_snapshot.sql");
   private static final String SNAPSHOT_TABLE_NAME = "migrami_snapshot";
   private MigramiSQLExecutor sqlExecutor;
   private String selectSQL;
@@ -45,7 +47,7 @@ class TableSnapshotRepository implements MigramiSnapshotRepository {
       this.set(parameters, 2, script.name().value());
     }, resultSet -> {
       MigramiCategory category = MigramiCategoryAdapter.create(this.value(1, resultSet), "/");
-      MigramiScriptName scriptName = MigramiScriptName.create(this.value(2, resultSet));
+      MigramiScriptName scriptName = MigramiScriptName.create(ResourceName.create(this.value(2, resultSet)));
       MigramiChecksum checksum = this.adapt(this.value(3, resultSet));
 
       return MigramiSnapshot.valueOf(category, checksum, scriptName);
@@ -69,9 +71,9 @@ class TableSnapshotRepository implements MigramiSnapshotRepository {
     });
   }
 
-  private String loadScript(String scriptName) {
-    String resource = Paths.get(SCRIPTS_PATH, scriptName).toString();
-    return Streams.read(resource);
+  private String loadScript(ResourceName resourceName) {
+    Path path = Paths.get(SCRIPTS_PATH);
+    return ResourceStream.read(path, resourceName);
   }
 
   private void set(PreparedStatement ps, Integer index, String value) {

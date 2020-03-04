@@ -15,9 +15,9 @@ public class MigramiScript {
 
   private final MigramiChecksum checksum;
 
-  public static MigramiScript create(MigramiCategory category, MigramiChecksumFactory checksumFactory, String nameURI, String content) {
+  public static MigramiScript create(MigramiCategory category, MigramiChecksumFactory checksumFactory, ResourceName resourceName, String content) {
     MigramiChecksum checksum = checksumFactory.create(content);
-    MigramiScriptName name = MigramiScriptName.create(nameURI);
+    MigramiScriptName name = MigramiScriptName.create(resourceName);
 
     return new MigramiScript(category, name, content, checksum);
   }
