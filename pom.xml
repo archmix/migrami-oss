@@ -10,7 +10,7 @@
   </parent>
 
 	<artifactId>migrami-oss</artifactId>
-	<version>0.0.4</version>
+	<version>0.0.5-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
   <name>Archmix Migrami Open Source Solution</name>
@@ -24,7 +24,7 @@
   </modules>
 
 	<properties>
-		<migramiVersion>0.0.4</migramiVersion>
+		<migramiVersion>0.0.5-SNAPSHOT</migramiVersion>
 		<slf4jVersion>1.7.25</slf4jVersion>
 		<log4jVersion>1.2.17</log4jVersion>
 	</properties>
@@ -58,7 +58,7 @@
   <scm>
     <connection>scm:git:git://github.com/archmix/${project.artifactId}.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/archmix/${project.artifactId}.git</developerConnection>
-    <tag>v0.0.4</tag>
+    <tag>HEAD</tag>
     <url>https://github.com/archmix</url>
   </scm>
 
