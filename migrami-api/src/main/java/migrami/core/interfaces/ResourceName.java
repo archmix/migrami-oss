@@ -17,6 +17,10 @@ public class ResourceName {
     return ResourceName.create(entryName);
   }
 
+  public String value(){
+    return this.value;
+  }
+
   @Override
   public String toString() {
     return this.value;
