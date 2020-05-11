@@ -24,9 +24,9 @@ public class TableSnapshotRepositoryTest {
     @Test
     public void givenSQLWithCustomSnapshotTableName() {
         final ResourceName resourceName = ResourceName.create("create_snapshot_table.sql");
-        final TableSnapshotRepository repository = new TableSnapshotRepository("customer");
+        final TableSnapshotRepository repository = new TableSnapshotRepository("custom");
 
-        final String expected = "CREATE TABLE customer_migrami_snapshot(\n" +
+        final String expected = "CREATE TABLE custom_migrami_snapshot(\n" +
             "  category    VARCHAR(100) NOT NULL,\n" +
             "  script_name  VARCHAR(100) NOT NULL,\n" +
             "  checksum    CHAR(32) NOT NULL,\n" +
