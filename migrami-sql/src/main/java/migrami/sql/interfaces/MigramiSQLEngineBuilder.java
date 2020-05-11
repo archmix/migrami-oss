@@ -19,6 +19,10 @@ public class MigramiSQLEngineBuilder extends MigramiBuilder<MigramiSQLEngineBuil
     return this.withSnapshotRepository(new TableSnapshotRepository());
   }
 
+  public MigramiSQLEngineBuilder withTableSnapshotRepository(final String customTableName) {
+    return this.withSnapshotRepository(new TableSnapshotRepository(customTableName));
+  }
+
   @Override
   protected void validate() {
     this.configuration.validate();
