@@ -11,4 +11,12 @@ public class MigramiSQLEngineTest {
 
     migrami.migrate();
   }
+
+  @Test
+  public void givenSQLEngineAsCustomTableNameWhenMigrateThenApplyScripts() {
+    Migrami migrami = MigramiSQLEngineBuilder.create().withDatasource("jdbc:h2:mem:test", "sa", "sa")
+        .withClasspathScriptLoader().withTableSnapshotRepository("customer_migrami_snapshot").build();
+
+    migrami.migrate();
+  }
 }
