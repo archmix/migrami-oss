@@ -8,6 +8,20 @@ Import dependency to your maven pom
   <version>${migramiVersion}</version>
 </dependency>
 ```
+Migrami SQL API
+
+```java:
+      String url = "jdbc:url:format";
+      String user = "dbuser";
+      String password = "dbpwd";
+
+      Migrami migrami = MigramiSQLEngineBuilder.create().withDatasource(url, user, password)
+          .withClasspathScriptLoader("sql-migration", this.category())
+          .withTableSnapshotRepository()
+          .build();
+      migrami.migrate();
+```
+
 # License
 https://github.com/archmix/community/blob/master/LICENSE.md
 
