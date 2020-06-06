@@ -15,7 +15,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.regex.Pattern;
 
-import static migrami.core.interfaces.ResourceName.SLASH;
+import static migrami.core.interfaces.ResourceName.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 class JarResourceResolver implements ResourceResolver {
@@ -24,9 +24,8 @@ class JarResourceResolver implements ResourceResolver {
 
   private static final String FOLDER_REGEX = "(.*)!\\/";
   private static final String JAR = "jar";
-
-  private final Logger logger = MigramiLogger.logger();
   private static final JarResourceResolver valueOf = new JarResourceResolver();
+  private final Logger logger = MigramiLogger.logger();
 
   public static JarResourceResolver valueOf() {
     return valueOf;
@@ -34,7 +33,7 @@ class JarResourceResolver implements ResourceResolver {
 
   @Override
   public boolean accept(URL location) {
-    if(location == null){
+    if (location == null) {
       return false;
     }
 
@@ -46,7 +45,7 @@ class JarResourceResolver implements ResourceResolver {
   public Iterable<ResourceName> resolve(URL location) {
     List<ResourceName> names = new ArrayList<>();
 
-    try(JarFile jarFile = this.jarFile(location)) {
+    try (JarFile jarFile = this.jarFile(location)) {
       Enumeration<JarEntry> entries = jarFile.entries();
       String folderPath = location.getPath().replaceAll(FOLDER_REGEX, "").concat(SLASH);
 

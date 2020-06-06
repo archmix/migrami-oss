@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>org.archmix</groupId>
     <artifactId>java-parent</artifactId>
     <version>1.8.1</version>
-    <relativePath />
+    <relativePath/>
   </parent>
 
-	<artifactId>migrami-oss</artifactId>
-	<version>0.0.5-SNAPSHOT</version>
-	<packaging>pom</packaging>
+  <artifactId>migrami-oss</artifactId>
+  <version>0.0.5-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
   <name>Archmix Migrami Open Source Solution</name>
-  <description>Migrami is an extensible migration API for Java Developers that want to do more than database migrations.</description>
+  <description>Migrami is an extensible migration API for Java Developers that want to do more than database
+    migrations.
+  </description>
   <url>https://archmix.org</url>
 
   <modules>
@@ -23,11 +26,11 @@
     <module>migrami-sql</module>
   </modules>
 
-	<properties>
-		<migramiVersion>0.0.5-SNAPSHOT</migramiVersion>
-		<slf4jVersion>1.7.25</slf4jVersion>
-		<log4jVersion>1.2.17</log4jVersion>
-	</properties>
+  <properties>
+    <migramiVersion>0.0.5-SNAPSHOT</migramiVersion>
+    <slf4jVersion>1.7.25</slf4jVersion>
+    <log4jVersion>1.2.17</log4jVersion>
+  </properties>
 
   <dependencyManagement>
     <dependencies>

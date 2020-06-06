@@ -4,18 +4,13 @@ import lombok.RequiredArgsConstructor;
 import migrami.core.infra.ResourceResolver;
 import migrami.core.infra.ResourceStream;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 @RequiredArgsConstructor
 class ClassPathScriptLoader implements MigramiScriptLoader {
@@ -36,7 +31,7 @@ class ClassPathScriptLoader implements MigramiScriptLoader {
       List<MigramiScript> scripts = new ArrayList<MigramiScript>();
       if (resources.hasMoreElements()) {
         URL location = resources.nextElement();
-        ResourceResolver.resolver(location).resolve().forEach(resourceName ->{
+        ResourceResolver.resolver(location).resolve().forEach(resourceName -> {
           String content = ResourceStream.read(path, resourceName);
           MigramiScript script = this.toMigramiScript(category, checksumFactory, resourceName, content);
           scripts.add(script);

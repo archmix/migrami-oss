@@ -11,7 +11,7 @@ public class ResourceResolverDecorator {
   private final URL location;
   private final ResourceResolver resolver;
 
-  public Iterable<ResourceName> resolve(){
+  public Iterable<ResourceName> resolve() {
     return this.resolver.resolve(this.location);
   }
 }

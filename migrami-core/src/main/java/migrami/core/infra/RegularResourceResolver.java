@@ -24,7 +24,7 @@ class RegularResourceResolver implements ResourceResolver {
 
   @Override
   public boolean accept(URL location) {
-    if(location == null){
+    if (location == null) {
       return false;
     }
 
@@ -42,7 +42,7 @@ class RegularResourceResolver implements ResourceResolver {
       while ((resourceName = reader.readLine()) != null) {
         names.add(ResourceName.create(resourceName));
       }
-    } catch (IOException e){
+    } catch (IOException e) {
       throw new IllegalStateException(e);
     }
 
