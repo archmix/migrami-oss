@@ -15,8 +15,8 @@ public class ClassPathScriptLoaderTest {
 
     scripts.forEach(script -> {
       Integer index = processed.incrementAndGet();
-      String sqlTemplate = "SELECT %s FROM TABLE;";
-      Assert.assertEquals(String.format(sqlTemplate, index), script.content());
+      String sqlTemplate = "SELECT %s FROM TABLE";
+      Assert.assertEquals(String.format(sqlTemplate, index), script.statements().get(0));
     });
 
     Assert.assertEquals(2, processed.get());

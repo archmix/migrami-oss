@@ -45,7 +45,9 @@ class MigramiSQLExecutor {
 
   public void execute(MigramiScript script) {
     connection.ifPresent(connection -> {
-      this.execute(connection, script.content());
+      script.statements().forEach(statement -> {
+        this.execute(connection, statement);
+      });
     });
   }
 
