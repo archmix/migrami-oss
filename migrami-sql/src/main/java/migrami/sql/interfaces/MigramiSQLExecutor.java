@@ -3,6 +3,8 @@ package migrami.sql.interfaces;
 import lombok.RequiredArgsConstructor;
 import migrami.core.interfaces.MigramiScript;
 import migrami.sql.infra.DatabaseVendor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -19,6 +21,8 @@ class MigramiSQLExecutor {
   private final DatabaseConfiguration configuration;
 
   private Optional<Connection> connection;
+
+  private Logger logger = LoggerFactory.getLogger(MigramiSQLExecutor.class);
 
   public void openConnection() {
     try {
@@ -44,8 +48,12 @@ class MigramiSQLExecutor {
   }
 
   public void execute(MigramiScript script) {
+    logger.info("Applying migration file {}", script.name());
+
     connection.ifPresent(connection -> {
-      this.execute(connection, script.content());
+      script.statements().forEach(statement -> {
+        this.execute(connection, statement);
+      });
     });
   }
 
@@ -110,6 +118,7 @@ class MigramiSQLExecutor {
         hasResults = statement.getMoreResults();
       }
     } catch (SQLException e) {
+      logger.error("Error on statement execution {}", script);
       throw new IllegalStateException(e);
     }
   }
