@@ -1,26 +1,13 @@
-# How to use Migrami
+# How to contribute with Migrami
 
-Import dependency to your maven pom
-```xml
-<dependency>
-  <groupId>org.archmix</groupId>
-  <artifactId>migrami-oss</artifactId>
-  <version>${migramiVersion}</version>
-</dependency>
-```
-Migrami SQL API
+1. Fork this repository
+2. Import InteliJ [code style](https://raw.githubusercontent.com/archmix/community/master/intellij_code_style.xml)
+3. Open your Pull Request
 
-```java:
-      String url = "jdbc:url:format";
-      String user = "dbuser";
-      String password = "dbpwd";
+Your name will be published in this repository as a contributor. All kind of contribution is welcomed. If you need assistance, please join us on [slack](https://archmix.org/slack)
 
-      Migrami migrami = MigramiSQLEngineBuilder.create().withDatasource(url, user, password)
-          .withClasspathScriptLoader("sql-migration", this.category())
-          .withTableSnapshotRepository()
-          .build();
-      migrami.migrate();
-```
+# User Guide
+You can find documentation [here](https://docs.archmix.org) 
 
 # License
 https://github.com/archmix/community/blob/master/LICENSE.md
