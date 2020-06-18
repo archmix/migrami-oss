@@ -51,7 +51,7 @@ class MigramiSQLExecutor {
     logger.info("Applying migration file {}", script.name());
 
     connection.ifPresent(connection -> {
-      script.statements().forEach(statement -> {
+      SQLStatements.process(script.body(), statement ->{
         this.execute(connection, statement);
       });
     });

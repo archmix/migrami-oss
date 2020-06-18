@@ -5,6 +5,7 @@ import migrami.core.infra.ResourceResolver;
 import migrami.core.infra.ResourceStream;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,7 +33,7 @@ class ClassPathScriptLoader implements MigramiScriptLoader {
       if (resources.hasMoreElements()) {
         URL location = resources.nextElement();
         ResourceResolver.resolver(location).resolve().forEach(resourceName -> {
-          String content = ResourceStream.read(path, resourceName);
+          InputStream content = ResourceStream.stream(path, resourceName);
           MigramiScript script = this.toMigramiScript(category, checksumFactory, resourceName, content);
           scripts.add(script);
         });
@@ -48,7 +49,7 @@ class ClassPathScriptLoader implements MigramiScriptLoader {
   }
 
   private MigramiScript toMigramiScript(MigramiCategory category,
-                                        MigramiChecksumFactory checksumFactory, ResourceName resourceName, String content) {
+                                        MigramiChecksumFactory checksumFactory, ResourceName resourceName, InputStream content) {
     return MigramiScript.create(category, checksumFactory, resourceName, content);
   }
 }

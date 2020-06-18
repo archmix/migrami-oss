@@ -14,11 +14,15 @@ class DatabaseConfiguration {
 
   private final DatabaseVendor vendor;
 
-  public DatabaseConfiguration(String url, String user, String password) {
+  private DatabaseConfiguration(String url, String user, String password) {
     this.url = url;
     this.user = user;
     this.password = password;
     this.vendor = DatabaseVendor.detectDatabase(url);
+  }
+
+  public static DatabaseConfiguration create(String url, String user, String password){
+    return new DatabaseConfiguration(url, user, password);
   }
 
   public String password() {

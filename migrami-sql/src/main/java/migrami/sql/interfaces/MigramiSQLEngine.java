@@ -23,6 +23,10 @@ class MigramiSQLEngine extends MigramiEngine {
     }
   }
 
+  MigramiSQLExecutor sqlExecutor(){
+    return this.sqlExecutor;
+  }
+
   @Override
   protected void migrate(MigramiScript script) {
     this.sqlExecutor.execute(script);

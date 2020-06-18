@@ -4,9 +4,7 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.io.InputStream;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode(of = {"category", "name"})
@@ -15,47 +13,24 @@ public class MigramiScript {
 
   private final MigramiScriptName name;
 
-  private final List<String> statements;
+  private final MigramiScriptBody body;
 
   private final MigramiChecksum checksum;
 
-  public static MigramiScript create(MigramiCategory category, MigramiChecksumFactory checksumFactory, ResourceName resourceName, String content) {
-    MigramiChecksum checksum = checksumFactory.create(content);
+  public static MigramiScript create(MigramiCategory category, MigramiChecksumFactory checksumFactory, ResourceName resourceName, InputStream content) {
+    MigramiScriptBody body = MigramiScriptBody.create(content);
+    MigramiChecksum checksum = checksumFactory.create(body.toString());
     MigramiScriptName name = MigramiScriptName.create(resourceName);
 
-    return new MigramiScript(category, name, extractStatements(content), checksum);
-  }
-
-  private static List<String> extractStatements(String content) {
-    List<String> statements = new ArrayList<>();
-
-    Scanner s = new Scanner(content);
-    s.useDelimiter("(;(\r)?\n)|((\r)?\n)?(--)?.*(--(\r)?\n)");
-    while (s.hasNext()) {
-      String line = s.next();
-      if (line.startsWith("/*!") && line.endsWith("*/")) {
-        int i = line.indexOf(' ');
-        line = line.substring(i + 1, line.length() - " */".length());
-      }
-
-      if(line.endsWith(";")) {
-        line = line.substring(0, line.length() -1);
-      }
-
-      if (line.trim().length() > 0) {
-        statements.add(line);
-      }
-    }
-
-    return statements;
+    return new MigramiScript(category, name, body, checksum);
   }
 
   public MigramiCategory category() {
     return category;
   }
 
-  public List<String> statements() {
-    return statements;
+  public MigramiScriptBody body() {
+    return this.body;
   }
 
   public MigramiChecksum checksum() {
