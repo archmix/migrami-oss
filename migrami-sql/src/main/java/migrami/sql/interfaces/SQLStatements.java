@@ -35,8 +35,8 @@ public class SQLStatements {
         }
       }
 
-      if(line != null) {
-        consumer.accept(line);
+      if(statement.length() > 0) {
+        consumer.accept(statement.toString());
       }
     } catch (Exception e) {
       throw new RuntimeException("Error on migration file parsing", e);
