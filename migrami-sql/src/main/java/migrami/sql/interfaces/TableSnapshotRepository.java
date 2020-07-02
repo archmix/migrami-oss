@@ -1,11 +1,5 @@
 package migrami.sql.interfaces;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import migrami.core.infra.ResourceStream;
 import migrami.core.interfaces.MigramiCategory;
 import migrami.core.interfaces.MigramiCategory.MigramiCategoryAdapter;
 import migrami.core.interfaces.MigramiChecksum;
@@ -13,49 +7,55 @@ import migrami.core.interfaces.MigramiScript;
 import migrami.core.interfaces.MigramiScriptName;
 import migrami.core.interfaces.MigramiSnapshot;
 import migrami.core.interfaces.MigramiSnapshotRepository;
-import migrami.core.interfaces.ResourceName;
+import toolbox.resources.interfaces.ResourceName;
+import toolbox.resources.interfaces.ResourcePath;
+import toolbox.resources.interfaces.ResourceStream;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 class TableSnapshotRepository implements MigramiSnapshotRepository {
-  private static final String SCRIPTS_PATH =
-    TableSnapshotRepository.class.getPackage().getName().replace(".", "/");
-  private static final ResourceName CREATE_SNAPSHOT_TABLE = ResourceName.create("create_snapshot_table.sql");
-  private static final ResourceName SELECT_SNAPSHOT = ResourceName.create("select_snapshot.sql");
-  private static final ResourceName INSERT_SNAPSHOT = ResourceName.create("insert_snapshot.sql");
-  private static final String DEFAULT_SNAPSHOT_TABLE_NAME = "migrami_snapshot";
+  private static ResourcePath SCRIPTS_PATH = ResourcePath.create(TableSnapshotRepository.class.getPackage().getName().replace(".", "/"));
+  private static ResourceName CREATE_SNAPSHOT_TABLE = ResourceName.create("create_snapshot_table.sql");
+  private static ResourceName SELECT_SNAPSHOT = ResourceName.create("select_snapshot.sql");
+  private static ResourceName INSERT_SNAPSHOT = ResourceName.create("insert_snapshot.sql");
+  private static String DEFAULT_SNAPSHOT_TABLE_NAME = "migrami_snapshot";
   private MigramiSQLExecutor sqlExecutor;
   private String selectSQL;
   private String insertSQL;
 
-  private final String snapshotTableName;
+  private String snapshotTableName;
 
   public TableSnapshotRepository() {
     this.snapshotTableName = DEFAULT_SNAPSHOT_TABLE_NAME;
   }
 
-  public TableSnapshotRepository(final String customTableName) {
+  public TableSnapshotRepository(String customTableName) {
     this.snapshotTableName = customTableName + "_" + DEFAULT_SNAPSHOT_TABLE_NAME;
   }
 
   public void initialize(MigramiSQLExecutor sqlExecutor) {
     this.sqlExecutor = sqlExecutor;
+    ResourceStream stream = ResourceStream.create();
 
     if (!sqlExecutor.exists(this.snapshotTableName) && !sqlExecutor.exists(this.snapshotTableName.toUpperCase())) {
-      String sql = loadScriptWithTableName(CREATE_SNAPSHOT_TABLE);
+      String sql = loadScriptWithTableName(stream, CREATE_SNAPSHOT_TABLE);
       sqlExecutor.execute(sql);
     }
 
-    this.selectSQL = loadScriptWithTableName(SELECT_SNAPSHOT);
-    this.insertSQL = loadScriptWithTableName(INSERT_SNAPSHOT);
+    this.selectSQL = loadScriptWithTableName(stream, SELECT_SNAPSHOT);
+    this.insertSQL = loadScriptWithTableName(stream, INSERT_SNAPSHOT);
   }
 
-  String loadScriptWithTableName(final ResourceName resourceName) {
-      final String sql = this.loadScript(resourceName);
+  String loadScriptWithTableName(ResourceStream stream, ResourceName resourceName) {
+    String sql = stream.read(SCRIPTS_PATH, resourceName).get();
 
-      if(DEFAULT_SNAPSHOT_TABLE_NAME.equals(this.snapshotTableName)) {
-          return sql;
-      }
+    if (DEFAULT_SNAPSHOT_TABLE_NAME.equals(this.snapshotTableName)) {
+      return sql;
+    }
 
-      return sql.replace(DEFAULT_SNAPSHOT_TABLE_NAME, this.snapshotTableName);
+    return sql.replace(DEFAULT_SNAPSHOT_TABLE_NAME, this.snapshotTableName);
   }
 
   @Override
@@ -88,11 +88,6 @@ class TableSnapshotRepository implements MigramiSnapshotRepository {
         this.set(values, 3, snapshot.checksum().value());
       });
     });
-  }
-
-  private String loadScript(ResourceName resourceName) {
-    Path path = Paths.get(SCRIPTS_PATH);
-    return ResourceStream.read(path, resourceName);
   }
 
   private void set(PreparedStatement ps, Integer index, String value) {

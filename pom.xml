@@ -27,6 +27,7 @@
 
   <properties>
     <migramiVersion>0.0.9-SNAPSHOT</migramiVersion>
+    <toolboxVersion>0.0.2-SNAPSHOT</toolboxVersion>
     <slf4jVersion>1.7.25</slf4jVersion>
     <log4jVersion>1.2.17</log4jVersion>
   </properties>
@@ -47,6 +48,12 @@
         <groupId>org.archmix</groupId>
         <artifactId>migrami-sql</artifactId>
         <version>${migramiVersion}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.archmix</groupId>
+        <artifactId>toolbox</artifactId>
+        <version>${toolboxVersion}</version>
       </dependency>
 
       <dependency>

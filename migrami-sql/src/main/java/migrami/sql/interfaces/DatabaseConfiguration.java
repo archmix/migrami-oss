@@ -1,9 +1,9 @@
 package migrami.sql.interfaces;
 
 import migrami.sql.infra.DatabaseVendor;
-import walled.api.interfaces.CompositeValidation;
+import toolbox.validation.interfaces.CompositeValidation;
 
-import static walled.api.interfaces.ValueValidation.*;
+import static toolbox.validation.interfaces.ValueValidation.*;
 
 class DatabaseConfiguration {
   private final String url;

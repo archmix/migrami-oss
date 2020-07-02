@@ -1,14 +1,14 @@
 package migrami.core.interfaces;
 
 import lombok.RequiredArgsConstructor;
-import migrami.core.infra.ResourceResolver;
-import migrami.core.infra.ResourceStream;
+import toolbox.resources.interfaces.ResourceFactory;
+import toolbox.resources.interfaces.ResourceName;
+import toolbox.resources.interfaces.ResourcePath;
+import toolbox.resources.interfaces.ResourceResolver;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -26,14 +26,14 @@ class ClassPathScriptLoader implements MigramiScriptLoader {
                                       MigramiChecksumFactory checksumFactory) {
 
     try {
-      Path path = Paths.get(this.path, category.path());
+      ResourcePath path = ResourcePath.create(this.path, category.path());
       Enumeration<URL> resources = getClassLoader().getResources(path.toString());
 
       List<MigramiScript> scripts = new ArrayList<MigramiScript>();
       if (resources.hasMoreElements()) {
         URL location = resources.nextElement();
         ResourceResolver.resolver(location).resolve().forEach(resourceName -> {
-          InputStream content = ResourceStream.stream(path, resourceName);
+          InputStream content = ResourceFactory.stream(path, resourceName);
           MigramiScript script = this.toMigramiScript(category, checksumFactory, resourceName, content);
           scripts.add(script);
         });

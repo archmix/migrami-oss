@@ -3,6 +3,7 @@ package migrami.core.interfaces;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import toolbox.resources.interfaces.ResourceName;
 
 import java.io.InputStream;
 

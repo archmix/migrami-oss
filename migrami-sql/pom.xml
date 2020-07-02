@@ -22,11 +22,6 @@
       <artifactId>migrami-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.archmix</groupId>
-      <artifactId>walleed</artifactId>
-      <version>${walleedVersion}</version>
-    </dependency>
-    <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
       <version>${h2Version}</version>
