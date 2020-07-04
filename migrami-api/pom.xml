@@ -14,7 +14,11 @@
   <dependencies>
     <dependency>
       <groupId>org.archmix</groupId>
-      <artifactId>toolbox</artifactId>
+      <artifactId>toolbox-java</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.archmix</groupId>
+      <artifactId>toolbox-validation</artifactId>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
