@@ -13,7 +13,7 @@
 
   <properties>
     <walleedVersion>0.0.1</walleedVersion>
-    <h2Version>1.4.199</h2Version>
+    <h2Version>2.0.206</h2Version>
   </properties>
 
   <dependencies>
