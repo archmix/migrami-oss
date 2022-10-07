@@ -1,0 +1,1 @@
+delete from migrami_snapshot where category = ? and script_name = ?
