@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.archmix</groupId>
     <artifactId>java-parent</artifactId>
-    <version>1.8.1</version>
+    <version>1.11.0</version>
     <relativePath />
   </parent>
 
@@ -27,8 +27,7 @@
 
   <properties>
     <migramiVersion>0.0.14-SNAPSHOT</migramiVersion>
-    <toolboxVersion>0.0.3</toolboxVersion>
-    <slf4jVersion>1.7.25</slf4jVersion>
+    <toolboxVersion>0.0.5</toolboxVersion>
     <log4jVersion>1.2.17</log4jVersion>
   </properties>
 
@@ -56,12 +55,6 @@
         <version>${toolboxVersion}</version>
         <scope>import</scope>
         <type>pom</type>
-      </dependency>
-
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>${slf4jVersion}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
