@@ -34,6 +34,9 @@ class MigramiSQLEngine extends MigramiEngine {
 
   @Override
   protected void after() {
+    if (this.repository instanceof TableSnapshotRepository) {
+      ((TableSnapshotRepository) this.repository).unlockSnapshotTable();
+    }
     this.sqlExecutor.closeConnection();
   }
 }

@@ -51,7 +51,7 @@ class MigramiSQLExecutor {
     logger.info("Applying migration file {}", script.name());
 
     connection.ifPresent(connection -> {
-      SQLStatements.process(script.body(), statement ->{
+      SQLStatements.process(script.body(), statement -> {
         this.execute(connection, statement);
       });
     });
@@ -91,6 +91,16 @@ class MigramiSQLExecutor {
         String message = String.format("Query %s affected %s rows", sql, rowsAffected);
         throw new IllegalStateException(message);
       }
+    } catch (SQLException e) {
+      throw new IllegalStateException(e);
+    }
+  }
+
+  void delete(String sql, Consumer<PreparedStatement> values) {
+    final Connection connection = connection();
+    try (final PreparedStatement ps = connection.prepareStatement(sql)) {
+      values.accept(ps);
+      ps.executeUpdate();
     } catch (SQLException e) {
       throw new IllegalStateException(e);
     }
