@@ -3,6 +3,7 @@ package migrami.sql.interfaces;
 import migrami.core.interfaces.Migrami;
 import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,11 +17,12 @@ public class MigramiSQLEngineTest {
   static final String PASSWORD = "sa";
   static final Logger LOGGER = LoggerFactory.getLogger(MigramiSQLEngineTest.class);
 
+  @BeforeClass
   @AfterClass
-  public static void init() {
+  public static void cleanUp() {
     try {
-      Files.delete(Paths.get("./test.mv.db"));
-      Files.delete(Paths.get("./test-custom.mv.db"));
+      Files.delete(Paths.get("./migramiSQLEngineTest.mv.db"));
+      Files.delete(Paths.get("./migramiSQLEngineTestCustom.mv.db"));
     } catch (Exception e) {
       LOGGER.warn("File deletion error", e);
     }
@@ -35,7 +37,7 @@ public class MigramiSQLEngineTest {
 
   @Test
   public void givenSQLEngineWhenMigrateThenApplyScripts() {
-    final String url = "jdbc:h2:./test";
+    final String url = "jdbc:h2:./migramiSQLEngineTest";
 
     final Migrami migrami = MigramiSQLEngineBuilder.create()
       .withDatasource(url, USER, PASSWORD)
@@ -74,7 +76,7 @@ public class MigramiSQLEngineTest {
 
   @Test
   public void givenSQLEngineAsCustomTableNameWhenMigrateThenApplyScripts() {
-    String url = "jdbc:h2:./test-custom";
+    String url = "jdbc:h2:./migramiSQLEngineTestCustom";
 
     Migrami migrami = MigramiSQLEngineBuilder.create()
       .withDatasource(url, USER, PASSWORD)

@@ -9,7 +9,7 @@
 	</parent>
 
   <artifactId>migrami-sql</artifactId>
-  <packaging>jar</packaging>
+  <name>Migrami SQL</name>
 
   <properties>
     <h2Version>2.2.224</h2Version>

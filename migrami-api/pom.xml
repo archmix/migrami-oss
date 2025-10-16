@@ -9,7 +9,7 @@
 	</parent>
 
   <artifactId>migrami-api</artifactId>
-  <packaging>jar</packaging>
+  <name>Migrami API</name>
 
   <dependencies>
     <dependency>

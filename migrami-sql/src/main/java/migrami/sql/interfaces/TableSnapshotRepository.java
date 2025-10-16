@@ -1,5 +1,6 @@
 package migrami.sql.interfaces;
 
+import lombok.extern.slf4j.Slf4j;
 import migrami.core.interfaces.MigramiCategory;
 import migrami.core.interfaces.MigramiCategory.MigramiCategoryAdapter;
 import migrami.core.interfaces.MigramiChecksum;
@@ -19,24 +20,27 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
 class TableSnapshotRepository implements MigramiSnapshotRepository {
   public static final String SNAPSHOT_SCRIPT_NAME_LOCK = "MIGRATION_LOCK";
   public static final String SNAPSHOT_CATEGORY_LOCK = "lock";
-  public static final int ONE_SECOND = 1000;
-  private static ResourcePath SCRIPTS_PATH = ResourcePath.create(TableSnapshotRepository.class.getPackage().getName().replace(".", "/"));
-  private static ResourceName CREATE_SNAPSHOT_TABLE = ResourceName.create("create_snapshot_table.sql");
-  private static ResourceName SELECT_SNAPSHOT = ResourceName.create("select_snapshot.sql");
-  private static ResourceName INSERT_SNAPSHOT = ResourceName.create("insert_snapshot.sql");
-  private static ResourceName DELETE_SNAPSHOT = ResourceName.create("delete_snapshot.sql");
-  private static String DEFAULT_SNAPSHOT_TABLE_NAME = "migrami_snapshot";
+
+  public static final int SLEEP_TIME_IN_SECONDS = 1000;
+  public static final int MAX_TRY_LOCK_ATTEMPTS = 10;
+
+  private static final ResourcePath SCRIPTS_PATH = ResourcePath.create(TableSnapshotRepository.class.getPackage().getName().replace(".", "/"));
+  private static final ResourceName CREATE_SNAPSHOT_TABLE = ResourceName.create("create_snapshot_table.sql");
+  private static final ResourceName SELECT_SNAPSHOT = ResourceName.create("select_snapshot.sql");
+  private static final ResourceName INSERT_SNAPSHOT = ResourceName.create("insert_snapshot.sql");
+  private static final ResourceName DELETE_SNAPSHOT = ResourceName.create("delete_snapshot.sql");
+  private static final String DEFAULT_SNAPSHOT_TABLE_NAME = "migrami_snapshot";
+
   private MigramiSQLExecutor sqlExecutor;
   private String selectSQL;
   private String insertSQL;
   private String deleteSQL;
 
-  private Logger logger = LoggerFactory.getLogger(TableSnapshotRepository.class);
-
-  private String snapshotTableName;
+  private final String snapshotTableName;
 
   public TableSnapshotRepository() {
     this.snapshotTableName = DEFAULT_SNAPSHOT_TABLE_NAME;
@@ -135,13 +139,13 @@ class TableSnapshotRepository implements MigramiSnapshotRepository {
   private void lockSnapshotTable() {
     int counter = 0;
     while (isLocked() || !tryInsertLock()) {
-      if (counter == 10) {
-        throw new IllegalStateException("Unable to lock table " + snapshotTableName + " after 10 attempts. Stopping migration.");
+      if (counter == MAX_TRY_LOCK_ATTEMPTS) {
+        throw new IllegalStateException("Unable to lock table " + snapshotTableName + " after " + counter + " attempts. Stopping migration.");
       }
-      logger.warn("Unable to lock table {}, trying again after 1 second.", snapshotTableName);
+      log.warn("Unable to lock table {}, trying again after " + SLEEP_TIME_IN_SECONDS + " second.", snapshotTableName);
       counter++;
       try {
-        Thread.sleep(ONE_SECOND);
+        Thread.sleep(SLEEP_TIME_IN_SECONDS);
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
