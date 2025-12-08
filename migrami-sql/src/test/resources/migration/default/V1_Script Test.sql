@@ -10,3 +10,4 @@ CREATE TABLE City (
     CityId int,
     Name varchar(255) 
 );
+

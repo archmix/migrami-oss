@@ -121,6 +121,9 @@ class MigramiSQLExecutor {
 
   private void execute(Statement statement, String script) {
     try {
+      if(script.replaceAll("\\R", "").trim().isEmpty()) {
+        return;
+      }
       statement.setEscapeProcessing(true);
 
       boolean hasResults = statement.execute(script);
